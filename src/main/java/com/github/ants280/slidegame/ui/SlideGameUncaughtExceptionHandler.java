@@ -15,27 +15,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.text.DefaultEditorKit;
 
-public class SlideGameUncaughtExceptionHandler
-		implements UncaughtExceptionHandler
-{
+public class SlideGameUncaughtExceptionHandler implements UncaughtExceptionHandler {
 	private final Component parentComponent;
 
-	public SlideGameUncaughtExceptionHandler(Component parentComponent)
-	{
+	public SlideGameUncaughtExceptionHandler(Component parentComponent) {
 		this.parentComponent = parentComponent;
 	}
 
 	@Override
-	public void uncaughtException(Thread t, Throwable e)
-	{
+	public void uncaughtException(Thread t, Throwable e) {
 		JTextArea textArea = new JTextArea(getStackTrace(e), 15, 30);
 
-		JMenuItem copyMenuItem = new JMenuItem(
-				new DefaultEditorKit.CopyAction());
+		JMenuItem copyMenuItem = new JMenuItem(new DefaultEditorKit.CopyAction());
 		JPopupMenu popupMenu = new JPopupMenu();
 		popupMenu.add(copyMenuItem);
-		textArea.addCaretListener(caretEvent -> copyMenuItem.setEnabled(
-				caretEvent.getDot() != caretEvent.getMark()));
+		textArea.addCaretListener(caretEvent -> copyMenuItem.setEnabled(caretEvent.getDot() != caretEvent.getMark()));
 		textArea.setComponentPopupMenu(popupMenu);
 
 		JPanel panel = new JPanel();
@@ -44,19 +38,10 @@ public class SlideGameUncaughtExceptionHandler
 		panel.add(new JScrollPane(textArea));
 		panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-		JOptionPane.showOptionDialog(
-				parentComponent,
-				panel,
-				"Error",
-				JOptionPane.DEFAULT_OPTION,
-				JOptionPane.ERROR_MESSAGE,
-				null,
-				null,
-				null);
+		JOptionPane.showOptionDialog(parentComponent, panel, "Error", JOptionPane.DEFAULT_OPTION, JOptionPane.ERROR_MESSAGE, null, null, null);
 	}
 
-	private static String getStackTrace(Throwable throwable)
-	{
+	private static String getStackTrace(Throwable throwable) {
 		StringWriter stackTraceWriter = new StringWriter();
 		throwable.printStackTrace(new PrintWriter(stackTraceWriter));
 		return stackTraceWriter.toString();
