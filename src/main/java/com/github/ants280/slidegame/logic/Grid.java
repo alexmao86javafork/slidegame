@@ -15,7 +15,7 @@ public class Grid {
 	}
 
 	public Grid(int length) {
-		this(length, 2048);
+		this(length, 1024);
 	}
 
 	/**

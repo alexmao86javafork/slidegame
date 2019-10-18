@@ -32,7 +32,7 @@ public class SlideGameLabelManager {
 	public void updateScoreLabels(boolean gameOver, boolean gameWon, int score, int highScore) {
 		String gameOverLabelText = "";
 		if (gameOver) {
-			gameOverLabelText = gameWon ? "Win:)" : "Lose:(";
+			gameOverLabelText = gameWon ? "You Win:)" : "You Lose:(";
 		}
 		if(gameWon) {
 			gameOverLabel.setForeground(Color.GREEN);

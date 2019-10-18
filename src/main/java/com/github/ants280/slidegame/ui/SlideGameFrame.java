@@ -6,12 +6,16 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,7 +39,14 @@ public class SlideGameFrame {
 			true)); // rounded
 
 	public SlideGameFrame() {
-		this.frame = new JFrame("2048 Puzzle Game");
+		this.frame = new JFrame("1024 Puzzle Game");
+		try {
+			InputStream in=SlideGameFrame.class.getResourceAsStream("/app.png");
+			this.frame.setIconImage(ImageIO.read(in));
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		Grid grid = new Grid();
 		JComponent slideGameDisplayComponent = new SlideGameDisplayComponent(grid).getComponent();
@@ -67,8 +78,15 @@ public class SlideGameFrame {
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 
-		scorePanel.add(gameOverLabel, constraints);
-		constraints.gridy = constraints.gridy + 1;
+		try {
+			InputStream in=SlideGameFrame.class.getResourceAsStream("/logo.png");
+			JLabel logoLabel=new JLabel(new ImageIcon(ImageIO.read(in)));
+			in.close();
+			scorePanel.add(logoLabel, constraints);
+			constraints.gridy = constraints.gridy + 1;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		JLabel scoreTitleLabel=this.createBigFontJLabel(false);
 		scoreTitleLabel.setText("Your Score");
@@ -97,10 +115,13 @@ public class SlideGameFrame {
 		timerLabel.setText("00:00");
 		scorePanel.add(timerLabel, constraints);
 		constraints.gridy = constraints.gridy + 1;
+		
+		scorePanel.add(gameOverLabel, constraints);
+		constraints.gridy = constraints.gridy + 1;
 
 		JPanel momentPanel = new JPanel();
 		momentPanel.setLayout(new BoxLayout(momentPanel, BoxLayout.Y_AXIS));
-		momentPanel.add(new JLabel("2048 puzzle, press N to new game"));
+		momentPanel.add(new JLabel("1024 puzzle, press N to new game"));
 		momentPanel.add(goalLabel);
 		momentPanel.add(Box.createGlue());
 		momentPanel.add(moveLabel);
